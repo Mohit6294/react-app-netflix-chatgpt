@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { getAuth, updateProfile } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import { BG_IMAGE, DEFAULT_USER_AVATAR } from "../utils/constants";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
@@ -15,7 +16,6 @@ const Login = () => {
   const password = useRef(null);
   const name  = useRef(null);
   const [errorMessage, setErrorMessage] = useState(null);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleButtonClick = (e) => {
@@ -34,7 +34,7 @@ const Login = () => {
           // Signed up
           const user = userCredential.user;
           updateProfile(user, {
-            displayName: name.current.value, photoURL: "https://www.google.com/logos/doodles/2024/paris-games-august-most-searched-playground-6753651837110533-s.png"
+            displayName: name.current.value, photoURL: DEFAULT_USER_AVATAR
           }).then(() => {
             const {uid,email,displayName,photoURL}  =auth?.currentUser;
               dispatch(addUser(
@@ -45,7 +45,6 @@ const Login = () => {
                   photoURL:photoURL,
                 }
               ))
-            navigate("/browse");
           }).catch((error) => {
             setErrorMessage(error.message);
           });
@@ -63,13 +62,10 @@ const Login = () => {
   .then((userCredential) => {
     // Signed in 
     const user = userCredential.user;
-    console.log(user);
-    navigate("/browse")
   })
   .catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
-    console.log(errorCode," ",errorMessage);
     setErrorMessage(errorCode,errorMessage);
     
   });
@@ -84,7 +80,7 @@ const Login = () => {
       <Header />
       <div className="absolute">
         <img
-          src="https://assets.nflxext.com/ffe/siteui/vlv3/36a4db5b-dec2-458a-a1c0-662fa60e7473/1115a02b-3062-4dcc-aae0-94028a0dcdff/IN-en-20240820-TRIFECTA-perspective_WEB_eeff8a6e-0384-4791-a703-31368aeac39f_large.jpg"
+          src={BG_IMAGE}
           alt="bg-image"
         />
       </div>
