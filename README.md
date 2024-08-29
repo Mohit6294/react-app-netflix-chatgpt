@@ -9,3 +9,5 @@
 # Chatgpt
   -- Search Bar
   -- Movie Suggestions
+
+  useRef() hooks
